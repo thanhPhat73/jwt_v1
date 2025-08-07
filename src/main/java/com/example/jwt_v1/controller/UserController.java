@@ -9,6 +9,7 @@ import com.example.jwt_v1.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +18,11 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
- //   private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final UserService userService;
-    public UserController(UserService userService) {
+    public UserController(PasswordEncoder passwordEncoder, UserService userService) {
+        this.passwordEncoder = passwordEncoder;
 
         this.userService = userService;
     }
@@ -34,9 +36,9 @@ public class UserController {
         User user = new User();
         user.setName(requestDto.getName());
         // mã hóa password
-      //  String endCodePassword = passwordEncoder.encode(requestDto.getPassword());
-    //    user.setPassword(endCodePassword);
-        user.setPassword(requestDto.getPassword());
+        String endCodePassword = passwordEncoder.encode(requestDto.getPassword());
+        user.setPassword(endCodePassword);
+    //    user.setPassword(requestDto.getPassword());
         user.setEmail(requestDto.getEmail());
 //        return userService.createUser(user);
         // Tạo user và nhận đối tượng trả về từ service
