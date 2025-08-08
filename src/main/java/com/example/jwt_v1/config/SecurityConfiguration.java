@@ -29,12 +29,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(c -> c.disable())
                 .authorizeHttpRequests(authz ->
                         authz
                                 // Allowing all requests to the authentication endpoints
-                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/auths/**").permitAll()
                                 // Requiring authentication for all other endpoints
-                                .anyRequest().authenticated()
+                               // .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session management

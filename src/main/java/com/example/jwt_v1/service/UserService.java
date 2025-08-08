@@ -73,6 +73,16 @@ public class UserService {
         userJpaRepository.delete(user);
     }
 
+//    public User handleGetUserByUserName(String username) {
+//        User data =  userJpaRepository.findAllByEmail(username);
+//        return data;
+//    }
+
+    public UserResponseDto handleGetUserByUserName1(String username) {
+        User data =  userJpaRepository.findAllByEmail(username);
+        return convertToDto(data);
+    }
+
 }
 
 
